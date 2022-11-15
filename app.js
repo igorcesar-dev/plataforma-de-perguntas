@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./db/database");
+const Pergunta = require("./db/Pergunta");
+const Resposta = require("./db/Resposta");
 
 // database
 
@@ -29,16 +31,53 @@ app.get("/", (req, res) => {
     res.render("index")
 });
 
-app.get("/pergunta", (req, res) => {
-    res.render("pergunta")
+app.get("/perguntas", (req, res) => {
+    Pergunta.findAll({
+        raw: true,
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    }).then(perguntas => {
+        res.render("perguntas", {
+            perguntas: perguntas
+        })
+    })
+})
+
+app.get("/perguntar", (req, res) => {
+    res.render("perguntar")
 })
 
 app.post("/salvarpergunta", (req, res) => {
+
     let titulo = req.body.titulo;
     let descricao = req.body.descricao;
-    res.send("Formulário Recebido! titulo:" + titulo + " " + " descricao " + descricao);
+
+    Pergunta.create({
+        titulo: titulo,
+        descricao: descricao
+    }).then(() => {
+        res.redirect("/");
+    })
 })
 
+app.get("/pergunta/:id", (req, res) => {
+    let id = req.params.id;
+    Pergunta.findOne({
+        where: {id: id}
+    }).then(pergunta => {
+        if(pergunta != undefined){ // pergunta encontrada
+            res.render("pergunta", {
+                pergunta: pergunta
+            });
+        }else{ // pergunta não encontrada
+            res.redirect("/");
+        }
+    });
+});
+
+// porta onde o código está rodando
 app.listen(8080, () => {
     console.log("App rodando!");
 });
+
