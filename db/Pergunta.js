@@ -16,7 +16,7 @@ const Pergunta = connection.define('perguntas', {
 
 // Envia o model para o banco
 Pergunta.sync({force: false}).then(() => {
-    console.log('Tabela criada!')
+    console.log('Tabela pergunta criada!')
 });
 
 module.exports = Pergunta;

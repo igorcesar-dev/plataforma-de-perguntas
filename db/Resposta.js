@@ -16,7 +16,7 @@ const Resposta = connection.define('respostas', {
 
 // Envia o model para o banco
 Resposta.sync({force: false}).then(() => {
-    console.log('Tabela criada!')
+    console.log('Tabela resposta criada!')
 });
 
 module.exports = Resposta;
