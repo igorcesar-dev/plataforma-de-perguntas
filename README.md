@@ -1,4 +1,4 @@
-# plataforma-de-perguntas
+# Plataforma de perguntas
 
 ## Sobre o projeto:
 
